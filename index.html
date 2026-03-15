@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Kingston — Clean Boy Streetwear. SS25 Collection."/>
+  <title>Kingston</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #080808; color: #ede9e3; font-family: 'Space Mono', monospace; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 2px; }
+    ::-webkit-scrollbar-thumb { background: #1d4a35; }
+
+    .bebas { font-family: 'Bebas Neue', sans-serif; }
+    .mono  { font-family: 'Space Mono', monospace; }
+
+    /* Grain */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9999; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Ticker */
+    #ticker { animation: tfade 0.5s ease; }
+    @keyframes tfade { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 0 40px; height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: all 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #141414;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nlink { font-size: 10px; letter-spacing: 0.2em; cursor: pointer; color: #888; transition: color 0.2s; text-transform: uppercase; text-decoration: none; }
+    .nlink:hover { color: #ede9e3; }
+    .nav-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .nav-wordmark { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.22em; color: #ede9e3; }
+
+    /* Hero */
+    .hero {
+      min-height: 94vh; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 0 40px 72px;
+      position: relative; border-bottom: 1px solid #141414; overflow: hidden;
+    }
+    .hero-block {
+      position: absolute; top: 8%; right: 6%;
+      width: 36vw; height: 72vh; max-width: 520px;
+      background: linear-gradient(135deg, #0e2419 0%, #0a1910 100%);
+      border: 1px solid #1d4a3533;
+    }
+    .hero-block-inner {
+      position: absolute; top: 11%; right: 9%;
+      width: 30vw; height: 66vh; max-width: 440px;
+      border: 1px solid #1d4a3518;
+    }
+    .hero-logo-area {
+      position: absolute; top: 50%; right: 6%;
+      transform: translateY(-50%);
+      width: 36vw; max-width: 520px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px; z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-label { font-size: 10px; letter-spacing: 0.3em; color: #1d4a35; display: block; margin-bottom: 20px; }
+    .reveal-wrap { overflow: hidden; display: block; }
+    .reveal-inner { display: block; animation: revealUp 1s cubic-bezier(.16,1,.3,1) both; }
+    @keyframes revealUp { from { transform: translateY(105%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+    .hero-word { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 13vw, 168px); line-height: 0.88; display: block; }
+    .hero-word.outline { color: transparent; -webkit-text-stroke: 1px #ede9e3; }
+    .hero-ctas { display: flex; gap: 14px; margin-top: 48px; align-items: center; flex-wrap: wrap; }
+
+    /* Buttons */
+    .btn-solid {
+      background: #1d4a35; color: #ede9e3; border: none; cursor: pointer;
+      font-family: 'Space Mono', monospace; letter-spacing: 0.16em; font-size: 11px;
+      transition: background 0.25s, color 0.25s; padding: 14px 36px;
+    }
+    .btn-solid:hover { background: #ede9e3; color: #080808; }
+    .btn-outline {
+      background: transparent; color: #ede9e3; border: 1px solid #333; cursor: pointer;
+      font-family: 'Space Mono', monospace; letter-spacing: 0.16em; font-size: 11px;
+      transition: all 0.25s; padding: 14px 36px;
+    }
+    .btn-outline:hover { background: #ede9e3; color: #080808; border-color: #ede9e3; }
+    .btn-ghost {
+      background: rgba(29,74,53,0.15); color: #ede9e3; border: 1px solid #1d4a35;
+      cursor: pointer; font-family: 'Space Mono', monospace; letter-spacing: 0.14em;
+      font-size: 10px; transition: all 0.2s; padding: 11px 20px; width: 100%;
+    }
+    .btn-ghost:hover { background: #1d4a35; }
+
+    /* Marquee */
+    .mq-wrap { overflow: hidden; white-space: nowrap; background: #0b0b0b; border-bottom: 1px solid #141414; padding: 16px 0; }
+    .mq-track { display: inline-block; animation: mq 22s linear infinite; font-size: 10px; letter-spacing: 0.28em; }
+    @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .mq-dot { color: #1d4a35; margin-right: 28px; }
+    .mq-word { color: #252525; margin-right: 28px; }
+
+    /* Products */
+    .products-section { padding: 80px 40px; }
+    .products-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+    .section-label { font-size: 9px; letter-spacing: 0.28em; color: #1d4a35; display: block; margin-bottom: 10px; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 5vw, 60px); letter-spacing: 0.06em; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 2px; }
+    .pcard { background: #0d0d0d; border: 1px solid #141414; transition: all 0.35s cubic-bezier(.16,1,.3,1); cursor: pointer; }
+    .pcard:hover { transform: translateY(-6px); background: #111; }
+    .pcard-img { height: 320px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .pcard-watermark { opacity: 0.06; }
+    .tag { font-size: 8px; letter-spacing: 0.18em; padding: 3px 8px; border: 1px solid; font-family: 'Space Mono', monospace; }
+    .pcard-tag { position: absolute; top: 14px; left: 14px; }
+    .pcard-cta { position: absolute; bottom: 14px; left: 14px; right: 14px; opacity: 0; transform: translateY(8px); transition: all 0.3s cubic-bezier(.16,1,.3,1); }
+    .pcard:hover .pcard-cta { opacity: 1; transform: translateY(0); }
+    .pcard-info { padding: 18px 18px 22px; }
+    .pcard-row { display: flex; justify-content: space-between; align-items: baseline; }
+    .pcard-name { font-family: 'Bebas Neue', sans-serif; font-size: 19px; letter-spacing: 0.08em; }
+    .pcard-price { font-size: 12px; color: #666; }
+    .pcard-color { font-size: 9px; color: #333; letter-spacing: 0.15em; display: block; margin-top: 5px; }
+
+    /* Manifesto */
+    .manifesto {
+      border-top: 1px solid #141414; border-bottom: 1px solid #141414;
+      background: #070707; padding: 100px 40px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .manifesto-text { font-size: 11px; line-height: 2.1; color: #555; max-width: 380px; margin-bottom: 36px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .stat-box { padding: 28px 22px; border: 1px solid #161616; background: #0d0d0d; transition: border-color 0.3s; }
+    .stat-box:hover { border-color: #1d4a35; }
+    .stat-sym { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: #1d4a35; margin-bottom: 12px; }
+    .stat-label { font-size: 9px; letter-spacing: 0.18em; color: #444; }
+
+    /* Email */
+    .email-section { padding: 80px 40px; border-bottom: 1px solid #141414; text-align: center; }
+    .email-form { display: flex; max-width: 460px; margin: 0 auto; }
+    .email-input {
+      flex: 1; background: #0d0d0d; border: 1px solid #1e1e1e; border-right: none;
+      color: #ede9e3; padding: 14px 18px;
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; outline: none;
+    }
+    .email-input::placeholder { color: #333; }
+
+    /* Footer */
+    footer { padding: 60px 40px 36px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+    .footer-col-title { font-size: 9px; letter-spacing: 0.24em; color: #1d4a35; margin-bottom: 18px; display: block; }
+    .flink { font-size: 10px; color: #444; cursor: pointer; transition: color 0.2s; letter-spacing: 0.1em; display: block; margin-bottom: 10px; text-decoration: none; }
+    .flink:hover { color: #ede9e3; }
+    .footer-bottom { border-top: 1px solid #161616; padding-top: 24px; display: flex; justify-content: space-between; }
+    .footer-copy { font-size: 9px; color: #252525; letter-spacing: 0.12em; }
+
+    /* Scroll arrow */
+    .scroll-hint { font-size: 9px; color: #333; letter-spacing: 0.2em; margin-left: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- TICKER -->
+  <div style="background:#0d0d0d;border-bottom:1px solid #141414;padding:9px 0;text-align:center;">
+    <span id="ticker" class="mono" style="font-size:9px;letter-spacing:0.28em;color:#555;">FREE SHIPPING OVER $150</span>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-links">
+      <a href="#" class="nlink">Shop</a>
+      <a href="#" class="nlink">Lookbook</a>
+    </div>
+    <div class="nav-center">
+      <!-- K Logo SVG -->
+      <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="29" fill="#080808" stroke="#ede9e322" stroke-width="1"/>
+        <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+        <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+        <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+        <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+        <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+        <path d="M30 29 L33 30.5 L30 32 L27 30.5Z" fill="#1d4a35"/>
+      </svg>
+      <span class="nav-wordmark">KINGSTON</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nlink">About</a>
+      <a href="#" class="nlink">Drop</a>
+      <span class="nlink">Bag (0)</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-block"></div>
+    <div class="hero-block-inner"></div>
+    <div class="hero-logo-area">
+      <svg width="110" height="110" viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="29" fill="#080808" stroke="#ede9e322" stroke-width="1"/>
+        <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+        <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+        <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+        <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+        <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+        <path d="M30 29 L33 30.5 L30 32 L27 30.5Z" fill="#1d4a35"/>
+      </svg>
+      <span class="mono" style="font-size:9px;color:#1d4a35;letter-spacing:0.3em;">Kingston / Collection One</span>
+    </div>
+    <div class="hero-content">
+      <span class="mono hero-label">SS25 — Clean Rebellion</span>
+      <span class="reveal-wrap">
+        <span class="reveal-inner hero-word" style="animation-delay:0s;">KING</span>
+      </span>
+      <span class="reveal-wrap">
+        <span class="reveal-inner hero-word outline" style="animation-delay:0.12s;">OF YOUR</span>
+      </span>
+      <span class="reveal-wrap">
+        <span class="reveal-inner hero-word" style="animation-delay:0.24s;">OWN.</span>
+      </span>
+      <div class="hero-ctas">
+        <button class="btn-solid">Shop Now</button>
+        <button class="btn-outline">View Lookbook</button>
+        <span class="mono scroll-hint">↓ Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="mq-wrap">
+    <div class="mq-track mono">
+      <span class="mq-word">Kingston</span><span class="mq-dot">·</span>
+      <span class="mq-word">Clean Boy Streetwear</span><span class="mq-dot">·</span>
+      <span class="mq-word">Wear What You Feel</span><span class="mq-dot">·</span>
+      <span class="mq-word">No Hype Needed</span><span class="mq-dot">·</span>
+      <span class="mq-word">SS25 Drop</span><span class="mq-dot">·</span>
+      <span class="mq-word">Feel It Or Don't</span><span class="mq-dot">·</span>
+      <span class="mq-word">Quiet Confidence</span><span class="mq-dot">·</span>
+      <span class="mq-word">Kingston</span><span class="mq-dot">·</span>
+      <span class="mq-word">Clean Boy Streetwear</span><span class="mq-dot">·</span>
+      <span class="mq-word">Wear What You Feel</span><span class="mq-dot">·</span>
+      <span class="mq-word">No Hype Needed</span><span class="mq-dot">·</span>
+      <span class="mq-word">SS25 Drop</span><span class="mq-dot">·</span>
+      <span class="mq-word">Feel It Or Don't</span><span class="mq-dot">·</span>
+      <span class="mq-word">Quiet Confidence</span><span class="mq-dot">·</span>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <section class="products-section">
+    <div class="products-header">
+      <div>
+        <span class="section-label mono">Current Drop</span>
+        <h2 class="section-title">The Collection</h2>
+      </div>
+      <button class="btn-outline" style="padding:10px 22px;font-size:9px;">View All</button>
+    </div>
+    <div class="products-grid">
+
+      <div class="pcard">
+        <div class="pcard-img" style="background:linear-gradient(160deg,#111 0%,#1a3a2a 100%);">
+          <svg class="pcard-watermark" width="80" height="80" viewBox="0 0 60 60" fill="none">
+            <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+            <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+          </svg>
+          <div class="pcard-tag"><span class="tag" style="color:#333;border-color:#222;">CORE</span></div>
+          <div class="pcard-cta"><button class="btn-ghost">Quick Add</button></div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-row">
+            <span class="pcard-name bebas">VOID TEE</span>
+            <span class="pcard-price mono">$48</span>
+          </div>
+          <span class="pcard-color mono">Color — BLK</span>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard-img" style="background:linear-gradient(160deg,#141414 0%,#1e1e1e 100%);">
+          <svg class="pcard-watermark" width="80" height="80" viewBox="0 0 60 60" fill="none">
+            <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+            <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+          </svg>
+          <div class="pcard-tag"><span class="tag" style="color:#1d4a35;border-color:#1d4a3555;">NEW</span></div>
+          <div class="pcard-cta"><button class="btn-ghost">Quick Add</button></div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-row">
+            <span class="pcard-name bebas">SILENT CARGO</span>
+            <span class="pcard-price mono">$120</span>
+          </div>
+          <span class="pcard-color mono">Color — GRY</span>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard-img" style="background:linear-gradient(160deg,#0f1a14 0%,#162a20 100%);">
+          <svg class="pcard-watermark" width="80" height="80" viewBox="0 0 60 60" fill="none">
+            <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+            <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+          </svg>
+          <div class="pcard-tag"><span class="tag" style="color:#333;border-color:#222;">CORE</span></div>
+          <div class="pcard-cta"><button class="btn-ghost">Quick Add</button></div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-row">
+            <span class="pcard-name bebas">GHOST HOODIE</span>
+            <span class="pcard-price mono">$95</span>
+          </div>
+          <span class="pcard-color mono">Color — BLK</span>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard-img" style="background:linear-gradient(160deg,#0a0f1a 0%,#111828 100%);">
+          <svg class="pcard-watermark" width="80" height="80" viewBox="0 0 60 60" fill="none">
+            <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+            <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+          </svg>
+          <div class="pcard-tag"><span class="tag" style="color:#b8963e;border-color:#b8963e55;">LIMITED</span></div>
+          <div class="pcard-cta"><button class="btn-ghost">Quick Add</button></div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-row">
+            <span class="pcard-name bebas">ATLAS JACKET</span>
+            <span class="pcard-price mono">$180</span>
+          </div>
+          <span class="pcard-color mono">Color — NVY</span>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard-img" style="background:linear-gradient(160deg,#181818 0%,#222 100%);">
+          <svg class="pcard-watermark" width="80" height="80" viewBox="0 0 60 60" fill="none">
+            <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+            <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+          </svg>
+          <div class="pcard-tag"><span class="tag" style="color:#333;border-color:#222;">CORE</span></div>
+          <div class="pcard-cta"><button class="btn-ghost">Quick Add</button></div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-row">
+            <span class="pcard-name bebas">BLANK SHORTS</span>
+            <span class="pcard-price mono">$65</span>
+          </div>
+          <span class="pcard-color mono">Color — WHT</span>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard-img" style="background:linear-gradient(160deg,#0d1f18 0%,#1a3328 100%);">
+          <svg class="pcard-watermark" width="80" height="80" viewBox="0 0 60 60" fill="none">
+            <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+            <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+          </svg>
+          <div class="pcard-tag"><span class="tag" style="color:#1d4a35;border-color:#1d4a3555;">NEW</span></div>
+          <div class="pcard-cta"><button class="btn-ghost">Quick Add</button></div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-row">
+            <span class="pcard-name bebas">RECON PANTS</span>
+            <span class="pcard-price mono">$135</span>
+          </div>
+          <span class="pcard-color mono">Color — GRN</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto">
+    <div>
+      <span class="section-label mono">The Kingston Way</span>
+      <div style="margin-bottom:32px;">
+        <div class="bebas" style="font-size:clamp(38px,5.5vw,68px);line-height:0.92;">BUILT FOR</div>
+        <div class="bebas" style="font-size:clamp(38px,5.5vw,68px);line-height:0.92;color:transparent;-webkit-text-stroke:1px #ede9e3;">THE ONES</div>
+        <div class="bebas" style="font-size:clamp(38px,5.5vw,68px);line-height:0.92;">WHO FEEL.</div>
+      </div>
+      <p class="mono manifesto-text">
+        It doesn't matter what's in your wallet. If you feel it, you belong here. Kingston is for the quiet rebels — the ones who move clean and live on their own terms.
+      </p>
+      <button class="btn-outline">Our Story</button>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-sym bebas">∞</div><p class="stat-label mono">Timeless Pieces</p></div>
+      <div class="stat-box"><div class="stat-sym bebas">01</div><p class="stat-label mono">SS25 Season</p></div>
+      <div class="stat-box"><div class="stat-sym bebas">—</div><p class="stat-label mono">Zero Compromise</p></div>
+      <div class="stat-box"><div class="stat-sym bebas">↑</div><p class="stat-label mono">Always Evolving</p></div>
+    </div>
+  </section>
+
+  <!-- EMAIL -->
+  <section class="email-section">
+    <div style="display:flex;justify-content:center;margin-bottom:24px;">
+      <svg width="52" height="52" viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="29" fill="#080808" stroke="#ede9e322" stroke-width="1"/>
+        <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+        <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+        <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+        <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+        <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+        <path d="M30 29 L33 30.5 L30 32 L27 30.5Z" fill="#1d4a35"/>
+      </svg>
+    </div>
+    <span class="section-label mono" style="display:block;margin-bottom:16px;">Stay In The Loop</span>
+    <h3 class="bebas" style="font-size:clamp(36px,5vw,58px);letter-spacing:0.06em;margin-bottom:12px;">Get Early Access To Drops</h3>
+    <p class="mono" style="font-size:11px;color:#444;margin-bottom:36px;letter-spacing:0.1em;">No spam. Just new drops before anyone else.</p>
+    <div class="email-form">
+      <input class="email-input" placeholder="Your Email" type="email"/>
+      <button class="btn-solid" style="padding:14px 28px;flex-shrink:0;">Join</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="29" fill="#080808" stroke="#ede9e322" stroke-width="1"/>
+            <rect x="14" y="12" width="5" height="36" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="12" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <rect x="11" y="46" width="11" height="2" rx="0.5" fill="#ede9e3"/>
+            <path d="M19 30 L38 13 L44 13 L24 30.5Z" fill="#ede9e3"/>
+            <path d="M19 31 L44 47 L38 47 L19 32Z" fill="#ede9e3"/>
+            <path d="M30 29 L33 30.5 L30 32 L27 30.5Z" fill="#1d4a35"/>
+          </svg>
+          <span class="bebas" style="font-size:22px;letter-spacing:0.22em;">KINGSTON</span>
+        </div>
+        <p class="mono" style="font-size:9px;color:#333;letter-spacing:0.18em;line-height:1.8;">Clean. Quiet.<br/>Uncompromising.</p>
+      </div>
+      <div>
+        <span class="footer-col-title mono">Shop</span>
+        <a href="#" class="flink">New Arrivals</a>
+        <a href="#" class="flink">Tops</a>
+        <a href="#" class="flink">Bottoms</a>
+        <a href="#" class="flink">Outerwear</a>
+        <a href="#" class="flink">Accessories</a>
+      </div>
+      <div>
+        <span class="footer-col-title mono">Info</span>
+        <a href="#" class="flink">About Us</a>
+        <a href="#" class="flink">Sizing Guide</a>
+        <a href="#" class="flink">Shipping</a>
+        <a href="#" class="flink">Returns</a>
+      </div>
+      <div>
+        <span class="footer-col-title mono">Connect</span>
+        <a href="#" class="flink">Instagram</a>
+        <a href="#" class="flink">Newsletter</a>
+        <a href="#" class="flink">Contact</a>
+        <a href="#" class="flink">Press</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy mono">© 2025 Kingston. All Rights Reserved.</span>
+      <span class="footer-copy mono">SS25 — Clean Rebellion</span>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Ticker
+    const tickers = [
+      "FREE SHIPPING OVER $150",
+      "NEW DROP — ATLAS JACKET",
+      "CLEAN. QUIET. UNCOMPROMISING.",
+      "WEAR WHAT YOU FEEL"
+    ];
+    let ti = 0;
+    setInterval(() => {
+      ti = (ti + 1) % tickers.length;
+      const el = document.getElementById('ticker');
+      el.style.opacity = 0;
+      setTimeout(() => { el.textContent = tickers[ti]; el.style.opacity = 1; }, 300);
+    }, 3000);
+  </script>
+</body>
+</html>
